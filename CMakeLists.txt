@@ -18,12 +18,17 @@ HunterGate(
   SHA1 "9a3594a61227967fb92159339ba326701b287b19"
 )
 
+project(SHA)
 
-project(boost_filesystem)
+hunter_add_package(Boost COMPONENTS chrono date_time thread log filesystem system)
+find_package (Threads)
+find_package (Boost COMPONENTS log_setup)
+find_package(Boost CONFIG REQUIRED log_setup chrono date_time thread log filesystem system)
 
 
-hunter_add_package(GTest)
-find_package(GTest CONFIG REQUIRED)
+add_library(header INTERFACE)
+add_library(Log INTERFACE)
+add_library(picosha2 INTERFACE)
 
 add_executable(main
   ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
@@ -31,31 +36,17 @@ add_executable(main
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/Threads.cpp
 )
 
+target_include_directories(header
+  INTERFACE $<BUILD_INTERFACE:${${PROJECT_NAME}_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_include_directories(Log
+  INTERFACE $<BUILD_INTERFACE:${${PROJECT_NAME}_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_include_directories(picosha2
+  INTERFACE $<BUILD_INTERFACE:${${PROJECT_NAME}_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-target_include_directories(main
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
 
-
-
-hunter_add_package(Boost COMPONENTS system filesystem)
-find_package(Boost CONFIG REQUIRED system filesystem)
-
-hunter_add_package(Boost COMPONENTS system regex)
-find_package(Boost CONFIG REQUIRED system regex)
-
-target_link_libraries(main Boost::filesystem)
-target_link_libraries(main Boost::regex)
-
-enable_testing()
-add_test(NAME unit_tests COMMAND tests) 
-
-if(BUILD_COVERAGE)
-  set(ENABLE_COVERAGE ON CACHE BOOL "Enable coverage build." FORCE)
-  list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-  find_package(codecov)
-  add_coverage(boost_filesystem)
-  add_coverage(tests)
-  list(APPEND LCOV_REMOVE_PATTERNS "'${PROJECT_SOURCE_DIR}/tests/*'")
-  coverage_evaluate()
-endif()
+target_link_libraries(Log INTERFACE Boost::log_setup Boost::chrono Boost::date_time Boost::thread Boost::log Boost::filesystem Boost::system)
+target_link_libraries(header INTERFACE picosha2 Log ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(main header)
