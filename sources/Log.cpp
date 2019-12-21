@@ -56,29 +56,32 @@ c_log::c_log()
 
 
 
-void c_log::output(c_log::logger_level level, std::string str)
+void c_log::output(c_log::logger_level level, const std::string& str)
 {
     switch (level)
     {
     case lvl_info:
-        BOOST_LOG_TRIVIAL(info) << str;
+        BOOST_LOG_TRIVIAL(info) << "An informational severity message";
         break;
     case lvl_debug:
-        BOOST_LOG_TRIVIAL(debug) << str;
+        BOOST_LOG_TRIVIAL(debug) << "A debug severity message";
         break;
     case lvl_error:
-        BOOST_LOG_TRIVIAL(error) << str;
+        BOOST_LOG_TRIVIAL(error) << "An error severity message";
         break;
     case lvl_fatal:
-        BOOST_LOG_TRIVIAL(fatal) << str;
+        BOOST_LOG_TRIVIAL(fatal) << "A fatal severity message";
         break;
     case lvl_trace:
-        BOOST_LOG_TRIVIAL(trace) << str;
+        BOOST_LOG_TRIVIAL(trace) << "A trace severity message";
         break;
     case lvl_warning:
-        BOOST_LOG_TRIVIAL(warning) << str;
+        BOOST_LOG_TRIVIAL(warning) << "A warning severity message";
         break;
+    default:
+        throw std::invalid_argument("level");
     }
+    
 }
 
 c_log &log()
