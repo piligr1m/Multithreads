@@ -9,7 +9,6 @@
 #include "Threads.hpp"
 #include <sstream>
 #include "Log.hpp"
-#include "Threads.hpp"
 #include "picosha2.h"
 
 c_task::c_task(std::string id)
