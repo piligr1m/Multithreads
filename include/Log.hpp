@@ -10,7 +10,6 @@
 #define Log_hpp
 
 #include <stdio.h>
-#include <stdio.h>
 #include <cstdio>
 #include <string>
 
@@ -27,7 +26,6 @@ public:
         lvl_fatal
     };
     c_log();
-    void print_info(logger_level level, const char *format, ...);
 private:
     void output(logger_level level, std::string str);
 };
