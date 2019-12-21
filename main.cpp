@@ -14,7 +14,6 @@
 #include "boost/log/trivial.hpp"
 #include <vector>
 #include <algorithm>
-
 #include "Threads.hpp"
 #include "Log.hpp"
 
