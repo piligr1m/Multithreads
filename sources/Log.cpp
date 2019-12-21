@@ -54,20 +54,7 @@ c_log::c_log()
     init_log();
 }
 
-void c_log::print_info(c_log::logger_level level, const char *format, ...)
-{
-    va_list arg_list, args_list_copy;
-    va_start(arg_list, format);
-    va_copy(args_list_copy, arg_list);
-    const size_t needed = vsnprintf(nullptr, 0, format, arg_list) + 1;
-    va_end(arg_list);
 
-    std::string result(needed, ' ');
-    vsnprintf(&result[0], needed, format, args_list_copy);
-    va_end(args_list_copy);
-
-    output(level, result);
-}
 
 void c_log::output(c_log::logger_level level, std::string str)
 {
