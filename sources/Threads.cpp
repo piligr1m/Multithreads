@@ -50,8 +50,7 @@ char c_task::get_rand_char()
 
 void c_task::check_hash(std::string &hash)
 {
-    unsigned int length = 4;
-    if(hash.size() > length)
+    if(hash.size() > 4)
     {
         std::string find_str("0000");
         std::string substr = hash.substr(hash.size()-4, 4);
