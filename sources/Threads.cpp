@@ -11,8 +11,7 @@
 #include "Log.hpp"
 #include "picosha2.h"
 
-using namespace Thread;
-   c_task::c_task(std::string id)
+c_task::c_task(std::string id)
     : m_id(id)
 {
     std::string prototype = generate_prototype(get_random(5, 255));
@@ -20,7 +19,7 @@ using namespace Thread;
     check_hash(hash);
 }
 
-std::string generate_prototype(int length)
+std::string c_task::generate_prototype(int length)
 {
     std::string result;
     for(int i = 0; i < length; i++)
@@ -31,24 +30,25 @@ std::string generate_prototype(int length)
     return result;
 }
 
-std::string calc_hash(std::string &prot)
+std::string c_task::calc_hash(std::string &prot)
 {
     std::string result;
-    
+    picosha2::hash256_hex_string(prot, result);
+    log_trace("[TID: %s] prot = %s \t hash = %s", m_id.c_str(), prot.c_str(), result.c_str());
     return result;
 }
 
-int get_random(int minimum, int maximum)
+int c_task::get_random(int minimum, int maximum)
 {
     return minimum + rand() % (maximum - minimum);
 }
 
-char get_rand_char()
+char c_task::get_rand_char()
 {
     return (char)(get_random(33, 126));
 }
 
- void check_hash(std::string &hash)
+void c_task::check_hash(std::string &hash)
 {
     if(hash.size() > 4)
     {
