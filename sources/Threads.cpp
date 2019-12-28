@@ -10,52 +10,54 @@
 #include <sstream>
 #include "Log.hpp"
 #include "picosha2.h"
+#include <exception>
 
-c_task::c_task(std::string id)
+thread::c_task::c_task(std::string id)
     : m_id(id)
 {
-    std::string prototype = generate_prototype(get_random(5, 255));
-    std::string hash = calc_hash(prototype);
-    check_hash(hash);
+    std::string prototype = thread::generate_prototype(get_random(5, 255));
+    std::string hash = thread::calc_hash(prototype);
+    thread::check_hash(hash);
 }
-
-std::string c_task::generate_prototype(int length)
+std::string thread::generate_prototype(int length)
 {
     std::string result;
     for(int i = 0; i < length; i++)
     {
-        result.push_back(get_rand_char());
+        result.push_back(thread::get_rand_char());
     }
-
     return result;
 }
-
-std::string c_task::calc_hash(std::string &prot)
+std::string thread::calc_hash(std::string& prototype)
 {
     std::string result;
-    picosha2::hash256_hex_string(prot, result);
-    log_trace("[TID: %s] prot = %s \t hash = %s", m_id.c_str(), prot.c_str(), result.c_str());
+    picosha2::hash256_hex_string(prototype, result);
+    log_trace("[TID: %s] prot = %s \t hash = %s", m_id.c_str(), prototype.c_str(), result.c_str());
     return result;
 }
-
-int c_task::get_random(int minimum, int maximum)
+int thread::get_random(int minimum, int maximum)
 {
-    return minimum + rand() % (maximum - minimum);
-}
-
-char c_task::get_rand_char()
-{
-    return (char)(get_random(33, 126));
-}
-
-void c_task::check_hash(std::string &hash)
-{
-    if(hash.size() > 4)
+    if (minimum < maximum)
     {
-        std::string find_str("0000");
+    return minimum + rand() % (maximum - minimum);
+    }
+    else
+    {
+        throw std::invalid_argument("number");
+    }
+}
+char thread::get_rand_char()
+{
+    return (char)(thread::get_random(33, 126));
+}
+void thread::check_hash(std::string& hash)
+{
+    const int length = 4;
+    if(hash.size() > length)
+    {
+        std::string reference("0000");
         std::string substr = hash.substr(hash.size()-4, 4);
-        std::size_t found = substr.find(find_str);
-        if (found!=std::string::npos)
+        if (substr == reference)
             log_info("[TID: %s] Hash is founded: %s", m_id.c_str(), hash.c_str());
     }
 }
