@@ -11,11 +11,53 @@
 
 #include <string>
 #include <thread>
-#include "Threads.cpp"
-void c_task(std::string id)
+#include "picosha2.h"
+#include <exception>
+#include <sstream>
+#include "Log.hpp"
+namespace thread
 {
-    std::string prototype = thread::generate_prototype(thread::get_random(5, 255));
-    std::string hash = thread::calc_hash(prototype);
-    thread::check_hash(hash);
+int get_random(int minimum, int maximum)
+{
+    if (minimum < maximum)
+    {
+    return minimum + rand() % (maximum - minimum);
+    }
+    else
+    {
+        throw std::invalid_argument("number");
+    }
+}
+char get_rand_char()
+{
+    return (char)(get_random(33, 126));
+}
+std::string generate_prototype(int length)
+{
+    std::string result;
+    for(int i = 0; i < length; i++)
+    {
+        result.push_back(get_rand_char());
+    }
+    return result;
+}
+std::string calc_hash(std::string& prototype)
+{
+    std::string result;
+    picosha2::hash256_hex_string(prototype, result);
+    log_trace("prot = %s \t hash = %s", prototype.c_str(), result.c_str());
+    return result;
+}
+void check_hash(std::string& hash)
+{
+    const int length = 4;
+    if(hash.size() > length)
+    {
+        std::string reference("0000");
+        std::string substr = hash.substr(hash.size()-4, 4);
+        if (substr == reference)
+            log_info("Hash is founded: %s", hash.c_str());
+    }
+}
 }
 #endif /* Threads_hpp */
