@@ -23,7 +23,7 @@ void thr_func()
     ss << std::this_thread::get_id();
     while(1)
     {
-        thread::c_task obj(ss.str());
+        c_task(ss.str());
     }
 }
 
