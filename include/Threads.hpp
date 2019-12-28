@@ -11,21 +11,11 @@
 
 #include <string>
 #include <thread>
-
-namespace thread
-    {
-class c_task
+#include "Threads.cpp"
+void c_task(std::string id)
 {
-public:
-    c_task(std::string id);
-    
-private:
-    std::string m_id;
-};
-    std::string generate_prototype(int length);
-    std::string calc_hash(std::string& prototype);
-    int get_random(int minimum, int maximum);
-    char get_rand_char();
-    void check_hash(std::string& hash);
-    }
+    std::string prototype = thread::generate_prototype(thread::get_random(5, 255));
+    std::string hash = thread::calc_hash(prototype);
+    thread::check_hash(hash);
+}
 #endif /* Threads_hpp */
