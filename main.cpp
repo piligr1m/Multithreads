@@ -8,56 +8,53 @@
 
 #include <iostream>
 #include <exception>
-#include <thread>
+#include "search_prototype.hpp"
 #include <sstream>
+#include <thread>
+#include <exception>
+#include <vector>
+#include <string>
 #include <boost/lexical_cast.hpp>
 #include "boost/log/trivial.hpp"
-#include <vector>
-#include <algorithm>
-#include "Threads.hpp"
-#include "Log.hpp"
-
-void thr_func()
+auto search_prototypes() -> void
 {
-    std::stringstream ss;
-    ss << std::this_thread::get_id();
-    while(1)
+    auto thread_id = std::this_thread::get_id();
+    auto worker_id = std::to_string(thread_id);
+    while(true)
     {
-        c_task(ss.str());
+        auto [prototype, valid] = search_prototype();
+        if (valid) {
+           log_info("Hash is founded: %s", prototype.c_str());
+        }
+        else {
+            log_debug("Debug");
+        }
     }
 }
-
 int main(int argc, char* argv[])
 {
     try
     {
         unsigned int m = std::thread::hardware_concurrency();
-
         if(argc > 1)
         {
             m = boost::lexical_cast<unsigned int>(argv[1]);
         }
-
         log_trace("m = %d", m);
-
         std::vector<std::thread> workers;
-        for (unsigned int i = 0; i < m; i++)
-        {
-            workers.push_back(std::thread(thr_func));
+        for (unsigned int i = 0; i < m; i++) {
+        workers.push_back(std::thread(search_prototypes));
         }
-        
         std::cin.get();
 
         std::for_each(workers.begin(), workers.end(), [](std::thread &thr)
         {
             thr.join();
         });
-
-        return 0;
-
     }
-    catch(std::exception& ex)
+    catch (std::exception& ex)
     {
         log_msg_lvl(c_log::lvl_error, "Exception! Message: %s", ex.what());
     }
+                          
 }
