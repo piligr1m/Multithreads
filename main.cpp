@@ -6,9 +6,9 @@
 //  Copyright © 2019 Stanislav Martynov. All rights reserved.
 //
 
+#include "search_prototype.hpp"
 #include <iostream>
 #include <exception>
-#include "search_prototype.hpp"
 #include <sstream>
 #include <thread>
 #include <exception>
