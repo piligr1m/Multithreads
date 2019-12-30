@@ -31,9 +31,9 @@ add_library(Log INTERFACE)
 add_library(picosha2 INTERFACE)
 
 add_executable(main
-  ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/sources/Log.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/sources/Threads.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/log.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/search_prototype.cpp
 )
 
 target_include_directories(header
