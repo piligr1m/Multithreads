@@ -1,5 +1,5 @@
 //
-//  Threads.hpp
+//  search_prototype.hpp
 //  LW6
 //
 //  Created by Stanislav Martynov on 17.12.2019.
