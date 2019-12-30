@@ -1,19 +1,17 @@
 //
-//  Log.cpp
+//  log.cpp
 //  LW6
 //
 //  Created by Stanislav Martynov on 17.12.2019.
 //  Copyright © 2019 Stanislav Martynov. All rights reserved.
 //
 
-#include "Log.hpp"
+#include "log.hpp"
 #include <stdarg.h>
-
-#include <boost/log/utility/setup/common_attributes.hpp>
-#include <boost/log/utility/manipulators/add_value.hpp>
 #include <ostream>
 #include <fstream>
-
+#include <boost/log/utility/setup/common_attributes.hpp>
+#include <boost/log/utility/manipulators/add_value.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include "boost/log/trivial.hpp"
 #include <boost/log/expressions.hpp>
