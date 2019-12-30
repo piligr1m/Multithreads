@@ -7,6 +7,7 @@
 //
 
 #include "search_prototype.hpp"
+#include "log.hpp"
 #include <iostream>
 #include <exception>
 #include <sstream>
@@ -52,7 +53,7 @@ int main(int argc, char* argv[])
             thr.join();
         });
     }
-    catch (std::exception& ex)
+    catch(std::exception& ex)
     {
         log_msg_lvl(c_log::lvl_error, "Exception! Message: %s", ex.what());
     }

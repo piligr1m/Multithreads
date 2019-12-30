@@ -7,12 +7,13 @@
 //
 
 #include "search_prototype.hpp"
-#include "Log.hpp"
+#include "log.hpp"
 #include <iostream>
 #include <exception>
 #include <vector>
 #include <algorithm>
 #include <string>
+#include "picosha2.h"
 
 auto generate_random(unsigned int min, unsigned int max) -> unsigned int
 {
