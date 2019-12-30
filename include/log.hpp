@@ -6,9 +6,8 @@
 //  Copyright © 2019 Stanislav Martynov. All rights reserved.
 //
 
-#ifndef Log_hpp
-#define Log_hpp
 
+#pragma once
 #include <stdio.h>
 #include <cstdio>
 #include <string>
@@ -32,7 +31,4 @@ private:
 
 c_log& log();
 
-#define log_info(fmt, ...)                      log().print_info(c_log::lvl_info, fmt, __VA_ARGS__)
-#define log_trace(fmt, ...)                     log().print_info(c_log::lvl_trace, fmt, __VA_ARGS__)
-#define log_msg_lvl(lvl, fmt, ...)              log().print_info(lvl, fmt, __VA_ARGS__)
-#endif /* Log_hpp */
+
